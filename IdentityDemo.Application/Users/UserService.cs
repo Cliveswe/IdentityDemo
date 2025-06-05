@@ -7,5 +7,6 @@ public class UserService(IIdentityUserService identityUserService) : IUserServic
         await identityUserService.CreateUserAsync(user, password);
 
     public async Task<UserResultDto> SignInAsync(string email, string password) =>
-         await identityUserService.SignInAsync(email, password);
+         await identityUserService.SignInAsync(email, password, true, true);
+
 }

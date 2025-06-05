@@ -22,6 +22,7 @@ public class AccountController(IUserService userService) : Controller
         return View();
     }
 
+
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync(RegisterVM viewModel) {
         if(!ModelState.IsValid)
@@ -30,6 +31,7 @@ public class AccountController(IUserService userService) : Controller
         // Try to register user
         var userDto = new UserProfileDto(viewModel.Email, viewModel.FirstName, viewModel.LastName);
         var result = await userService.CreateUserAsync(userDto, viewModel.Password);
+
         if(!result.Succeeded) {
             // Show error
             ModelState.AddModelError(string.Empty, result.ErrorMessage!);
@@ -52,6 +54,7 @@ public class AccountController(IUserService userService) : Controller
 
         // Check if credentials is valid (and set auth cookie)
         var result = await userService.SignInAsync(viewModel.Username, viewModel.Password);
+
         if(!result.Succeeded) {
             // Show error
             ModelState.AddModelError(string.Empty, result.ErrorMessage!);
