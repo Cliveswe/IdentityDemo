@@ -1,5 +1,6 @@
 ﻿using IdentityDemo.Application.Users;
 using IdentityDemo.Infrastructure.Persistence;
+using IdentityDemo.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
         builder.Services.AddTransient<IUserService, UserService>();
+        builder.Services.AddTransient<IIdentityUserService, IdentityUserService>();
 
         // Konfigurera EF
         builder.Services.AddDbContext<ApplicationContext>(
@@ -23,6 +25,8 @@ public class Program
             options.Password.RequiredLength = 6;
             options.Password.RequireNonAlphanumeric = true;
         }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+
+
 
         // Identity: Hit ska icke inloggade användare skikas (om de besöker skyddade sidor)
         builder.Services.ConfigureApplicationCookie(o => o.LoginPath = "/login");
